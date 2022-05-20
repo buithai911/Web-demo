@@ -9,13 +9,13 @@ const app = express()
 const cors = require('cors')
 
 const authRoute = require('./routers/authRoute')
-const postRoute = require('./routers/postRoute')
+const productRoute = require('./routers/productRoute')
 
 app.use(cors())
 app.use(express.json())
 
 app.use('/api/v1/auth', authRoute)
-app.use('/api/v1/posts', postRoute)
+app.use('/api/v1/products', productRoute)
 app.get('/', (req, res) => res.send('halo'))
 
 //err

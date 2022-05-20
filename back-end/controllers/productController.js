@@ -1,6 +1,5 @@
-const Post = require('../models/Post')
 const cloudinary = require("../cloudinary/cloudinary");
-const upload = require("../cloudinary/multer");
+const Product = require('../models/Product');
 //getAllPosts
 // exports.getAllPosts = async (req, res, next) => {
 //     try {
@@ -16,14 +15,13 @@ const upload = require("../cloudinary/multer");
 //     }
 // }
 
-exports.getAllPosts = async (req, res, next) => {
-    await Post.find({}).populate('author', 'name')//.select('content createAt')
-        .then(posts => {
+exports.getAllProducts = async (req, res, next) => {
+    await Product.find({}).populate('author', 'name')//.select('content createAt')
+        .then(products => {
             //console.log(posts)
             res.status(200).json({ 
                 status: "oke",
-                data: {posts},
-                //result: posts.length()
+                data: {products},
             })
         })
         .catch (err => {
@@ -33,14 +31,14 @@ exports.getAllPosts = async (req, res, next) => {
 
 
 //createOnePosts
-exports.createOnePost = async (req, res, next) => {
+exports.createOneProduct = async (req, res, next) => {
     try {
         const {userId} = req.body
         const result = await cloudinary.uploader.upload(req.file.path);
-        const post = await Post.create({...req.body, author:userId, image: result.secure_url, cloudinary_id: result.public_id})
+        const product = await Product.create({...req.body, author:userId, image: result.secure_url, cloudinary_id: result.public_id})
         res.status(200).json({
             status: "success",
-            data: {post}
+            data: {product}
         })
     } catch (error) {
         next(error)
@@ -48,24 +46,25 @@ exports.createOnePost = async (req, res, next) => {
 }
 
 //updateOnePosts
-exports.updateOnePost = async (req, res, next) => {
+exports.updateOneProduct = async (req, res, next) => {
     try {
-        const {postId} = req.params
-        const post = await Post.findByIdAndUpdate(postId, {...req.body}, {new: true, runValidator: true}) // res noi dung update
+        const {productId} = req.params
+        const product = await Product.findByIdAndUpdate( productId, req.body, {new: true, runValidator: true}) // res noi dung update
         res.status(200).json({
             status: "success",
-            data: {post}
+            data: {product}
         })
+        
     } catch (error) {
         next(error)
     }
 }
 
 //deleteOnePosts
-exports.deleteOnePost = async (req, res, next) => {
+exports.deleteOneProduct = async (req, res, next) => {
     try {
-        const {postId} = req.params
-        await Post.findByIdAndDelete(postId)
+        const {productId} = req.params
+        await Product.findByIdAndDelete(productId)
         res.status(200).json({
             status: "success",
             message: "Delete successfull"
