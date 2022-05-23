@@ -1,24 +1,10 @@
 const cloudinary = require("../cloudinary/cloudinary");
 const Product = require('../models/Product');
-//getAllPosts
-// exports.getAllPosts = async (req, res, next) => {
-//     try {
-//         const posts = await Post.find({})
-//         console.log(posts)
-//         res.status(200).json({
-//             status: "success",
-//             result: posts.length(),
-//             data: {posts}
-//         })
-//     } catch (error) {
-//         res.json(error)
-//     }
-// }
 
+//getAllPosts
 exports.getAllProducts = async (req, res, next) => {
-    await Product.find({}).populate('author', 'name')//.select('content createAt')
+    await Product.find({}).populate('seller', 'name')
         .then(products => {
-            //console.log(posts)
             res.status(200).json({ 
                 status: "oke",
                 data: {products},
@@ -29,13 +15,12 @@ exports.getAllProducts = async (req, res, next) => {
     })
 }
 
-
 //createOnePosts
 exports.createOneProduct = async (req, res, next) => {
     try {
         const {userId} = req.body
         const result = await cloudinary.uploader.upload(req.file.path);
-        const product = await Product.create({...req.body, author:userId, image: result.secure_url, cloudinary_id: result.public_id})
+        const product = await Product.create({...req.body, seller:userId, image: result.secure_url, cloudinary_id: result.public_id})
         res.status(200).json({
             status: "success",
             data: {product}

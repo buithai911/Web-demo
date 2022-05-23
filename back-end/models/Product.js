@@ -3,7 +3,7 @@ const productSchema = new mongoose.Schema({
     name: { type: String, required: [true, 'Product must have name'], trim: true},
     description: { type: String, required: [true, 'Product must have description'], trim: true},
     price: { type: Number, required: [true, 'Product must have price'], trim: true},
-    author: {
+    seller: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },

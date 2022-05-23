@@ -27,7 +27,7 @@ exports.login = async (req, res, next) => {
             const token = jwt.sign({userId: user._id}, process.env.APP_SECRET)
             res.status(200).json({
             status: 'sucsess',
-            data: {token, userName: user.name}
+            data: {token, userName: user.name, avatar: user.avatar , cloudinary_id: user.cloudinary_id}
             })
         }else{
             const err = new Error('Password is not correct')
