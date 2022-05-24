@@ -11,5 +11,10 @@ const productSchema = new mongoose.Schema({
     cloudinary_id: {type: String}
 }, {timestamps: true})
 
+productSchema.index({name: 'text'})
+
 const Product = mongoose.model('Product', productSchema)
+
+Product.createIndexes({name: 'text'})
+
 module.exports = Product 

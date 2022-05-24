@@ -1,7 +1,7 @@
 const cloudinary = require("../cloudinary/cloudinary");
 const Product = require('../models/Product');
 
-//getAllPosts
+//getAllProducts
 exports.getAllProducts = async (req, res, next) => {
     await Product.find({}).populate('seller', 'name')
         .then(products => {
@@ -13,6 +13,25 @@ exports.getAllProducts = async (req, res, next) => {
         .catch (err => {
             res.json(error)
     })
+}
+
+//searchProducts
+exports.searchProducts = async (req, res, next) => {
+    try {
+        let query={};
+        if(req.query.keyword){
+            query.$or=[
+                { "name" : { $regex: req.query.keyword, $options: 'i' } },
+            	{ "description" : { $regex: req.query.keyword, $options: 'i' } },];
+            }
+            let product=await Product.find(query)
+            return res.status(200).send({
+                message:'ok',
+                data:product
+            })
+    } catch (error) {
+        next(err)
+    }
 }
 
 //createOnePosts
