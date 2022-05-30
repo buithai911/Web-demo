@@ -27,7 +27,7 @@ exports.login = async (req, res, next) => {
             const token = jwt.sign({userId: user._id}, process.env.APP_SECRET)
             res.status(200).json({
             status: 'sucsess',
-            data: {token, userName: user.name, avatar: user.avatar , cloudinary_id: user.cloudinary_id}
+            data: {token, userName: user.name, id: user._id ,avatar: user.avatar , cloudinary_id: user.cloudinary_id}
             })
         }else{
             const err = new Error('Password is not correct')
@@ -41,8 +41,9 @@ exports.login = async (req, res, next) => {
 exports.getCurrentUser = async (req, res, next) => {
     try {
         const data = {user: null}
+        console.log(req.body)
         if (req.body['userId']){
-            const user = await User.findOne({ id: req.body['userId']})
+            const user = await User.findById({ _id: req.body['userId']})
             data.user = {userName: user.name }
         }
         res.status(200).json({
@@ -50,6 +51,6 @@ exports.getCurrentUser = async (req, res, next) => {
             data: data
         })
     } catch (error) {
-        res.json(error)
+        next(error)
     }
 }

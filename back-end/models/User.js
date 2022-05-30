@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({     //unique: độc nhất, trim: bỏ
     email: {type: String, unique: true, trim: true, required: [true, 'Email must be require']},
     password: {type: String, unique: true, required: [true, 'Password must be require'], minlength: [6, 'Password must be at least 6 characters']},
     avatar: {type: String},
-    cloudinary_id: { type: String} 
+    cloudinary_id: { type: String}
 }, {timestamps: true})
 
 userSchema.pre('save', function(next){

@@ -6,12 +6,12 @@ exports.getAllProducts = async (req, res, next) => {
     await Product.find({}).populate('seller', 'name')
         .then(products => {
             res.status(200).json({ 
-                status: "oke",
+                status: "success",
                 data: {products},
             })
         })
         .catch (err => {
-            res.json(error)
+            next(err)
     })
 }
 
@@ -26,7 +26,7 @@ exports.searchProducts = async (req, res, next) => {
             }
             let product=await Product.find(query)
             return res.status(200).send({
-                message:'ok',
+                message:'success',
                 data:product
             })
     } catch (error) {

@@ -10,12 +10,14 @@ const cors = require('cors')
 
 const authRoute = require('./routers/authRoute')
 const productRoute = require('./routers/productRoute')
+const userRoute = require('./routers/userRoute')
 
 app.use(cors())
 app.use(express.json())
 
 app.use('/api/v1/auth', authRoute)
 app.use('/api/v1/products', productRoute)
+app.use('/api/v1/user', userRoute)
 app.get('/', (req, res) => res.send('halo'))
 
 //err
