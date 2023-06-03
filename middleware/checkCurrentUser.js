@@ -17,6 +17,6 @@ exports.checkCurrentUser = (req, res, next) => {
         } catch (error) {
             req.body['userId'] = null
             next()
-    }
+        }
     }
 }
