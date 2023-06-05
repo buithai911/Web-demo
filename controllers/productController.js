@@ -37,7 +37,7 @@ exports.searchProducts = async (req, res, next) => {
 //createOnePosts
 exports.createOneProduct = async (req, res, next) => {
     try {
-        const {userId} = req.body
+        const userId = req.body.userId
         const result = await cloudinary.uploader.upload(req.file.path);
         const product = await Product.create({...req.body, seller:userId, image: result.secure_url, cloudinary_id: result.public_id})
         res.status(200).json({
@@ -52,7 +52,7 @@ exports.createOneProduct = async (req, res, next) => {
 //updateOnePosts
 exports.updateOneProduct = async (req, res, next) => {
     try {
-        const {productId} = req.params
+        const productId = req.params.productId
         const product = await Product.findByIdAndUpdate( productId, req.body, {new: true, runValidator: true}) // res noi dung update
         res.status(200).json({
             status: "success",
@@ -67,7 +67,7 @@ exports.updateOneProduct = async (req, res, next) => {
 //deleteOnePosts
 exports.deleteOneProduct = async (req, res, next) => {
     try {
-        const {productId} = req.params
+        const productId = req.params.productId
         await Product.findByIdAndDelete(productId)
         res.status(200).json({
             status: "success",

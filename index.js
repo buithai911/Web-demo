@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 const { connectDB } = require('./config/db');
 connectDB();
 
@@ -13,7 +13,7 @@ const userRoute = require('./routers/userRoute');
 
 app.use(cors());
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/products', productRoute);
 app.use('/api/v1/user', userRoute);
@@ -26,6 +26,6 @@ app.all('*', (req, res, next) => {
   next(err);
 })
 
-const port = process.env.APP_PORT;
+const port = process.env.APP_PORT
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`))

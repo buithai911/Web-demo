@@ -1,7 +1,6 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const cloudinary = require("../cloudinary/cloudinary");
 exports.register = async (req, res, next) => {
     try {
       const user = await User.create({ ...req.body, avatarurl: "" });
@@ -49,20 +48,4 @@ exports.login = async (req, res, next) => {
         console.log(`Log-in system's failed: ${error}`);
         next(error);
       }
-}
-exports.getCurrentUser = async (req, res, next) => {
-    try {
-        const data = {user: null}
-        console.log(req.body)
-        if (req.body['userId']){
-            const user = await User.findById({ _id: req.body['userId']})
-            data.user = {userName: user.name }
-        }
-        res.status(200).json({
-            status: "success",
-            data: data
-        })
-    } catch (error) {
-        next(error)
-    }
 }
